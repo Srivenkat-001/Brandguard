@@ -1,0 +1,134 @@
+[
+  {
+    "store": "google_play",
+    "app_id": "com.veridianbank.mobile",
+    "name": "Veridian Bank Mobile",
+    "developer": "Veridian Bank Ltd",
+    "developer_id": "dev-veridian-001",
+    "description": "Veridian Bank offers savings accounts, credit cards, personal loans and UPI payments. Manage your accounts, pay bills, transfer money and track spending securely with the official Veridian Bank mobile banking app.",
+    "installs": 5000000,
+    "rating": 4.4,
+    "permissions": [
+      "INTERNET",
+      "USE_BIOMETRIC",
+      "CAMERA"
+    ],
+    "icon": "logos/official.png"
+  },
+  {
+    "store": "app_store",
+    "app_id": "com.veridianbank.mobile",
+    "name": "Veridian Bank Mobile",
+    "developer": "Veridian Bank Ltd",
+    "developer_id": "dev-veridian-001",
+    "description": "Veridian Bank offers savings accounts, credit cards, personal loans and UPI payments. Manage your accounts, pay bills, transfer money and track spending securely with the official Veridian Bank mobile banking app.",
+    "installs": null,
+    "rating": 4.6,
+    "permissions": [],
+    "icon": "logos/official.png"
+  },
+  {
+    "store": "google_play",
+    "app_id": "com.vrdn.rewards2024",
+    "name": "Veridian Bank Rewards",
+    "developer": "Mobile Tools Studio",
+    "developer_id": "dev-x-9981",
+    "description": "Claim free Veridian Bank cashback and unlimited rewards. Login with your card number and OTP.",
+    "installs": 500,
+    "rating": 2.9,
+    "permissions": [
+      "READ_SMS",
+      "SEND_SMS",
+      "SYSTEM_ALERT_WINDOW",
+      "BIND_ACCESSIBILITY_SERVICE",
+      "INTERNET"
+    ],
+    "icon": "logos/clone_exact.png"
+  },
+  {
+    "store": "google_play",
+    "app_id": "com.veridian.bank.mobile2",
+    "name": "VeridianBank Mobile",
+    "developer": "Appify Labs",
+    "developer_id": "dev-x-4410",
+    "description": "Veridian Bank offers savings accounts, credit cards, personal loans and UPI payments. Manage your accounts, pay bills, transfer money and track spending securely with the Veridian Bank mobile banking app.",
+    "installs": 2000,
+    "rating": 3.4,
+    "permissions": [
+      "INTERNET",
+      "READ_SMS",
+      "READ_CONTACTS"
+    ],
+    "icon": "logos/clone_exact.png"
+  },
+  {
+    "store": "google_play",
+    "app_id": "net.verldian.app",
+    "name": "Verldian Bank",
+    "developer": "J Smith",
+    "developer_id": "dev-x-7722",
+    "description": "Mobile banking, savings account and credit card management.",
+    "installs": 100,
+    "rating": 0.0,
+    "permissions": [
+      "INTERNET",
+      "REQUEST_INSTALL_PACKAGES"
+    ],
+    "icon": "logos/clone_near.png"
+  },
+  {
+    "store": "app_store",
+    "app_id": "com.quickpay.vbpay",
+    "name": "Veridian Bank - Official Pay",
+    "developer": "Veridian Bank Ltd",
+    "developer_id": "dev-x-5555",
+    "description": "Pay bills and send money instantly. UPI enabled.",
+    "installs": null,
+    "rating": 3.0,
+    "permissions": [],
+    "icon": "logos/unrelated_green.png"
+  },
+  {
+    "store": "google_play",
+    "app_id": "com.veridianbakery.orders",
+    "name": "Veridian Bakery Orders",
+    "developer": "Veridian Bakery LLC",
+    "developer_id": "dev-bk-1",
+    "description": "Order fresh bread for pickup.",
+    "installs": 10000,
+    "rating": 4.7,
+    "permissions": [
+      "INTERNET"
+    ],
+    "icon": "logos/unrelated_orange.png"
+  },
+  {
+    "store": "google_play",
+    "app_id": "org.openmaps.atmfinder",
+    "name": "ATM & Branch Finder",
+    "developer": "OpenMaps",
+    "developer_id": "dev-om-2",
+    "description": "Find ATMs and branches of any bank, including Veridian Bank, HDFC and others near you.",
+    "installs": 800000,
+    "rating": 4.3,
+    "permissions": [
+      "INTERNET",
+      "ACCESS_FINE_LOCATION"
+    ],
+    "icon": "logos/unrelated_green.png"
+  },
+  {
+    "store": "google_play",
+    "app_id": "com.venetianbank.app",
+    "name": "Venetian Bank",
+    "developer": "Venetian Bank SpA",
+    "developer_id": "dev-vb-1",
+    "description": "Heritage banking in your pocket.",
+    "installs": 300000,
+    "rating": 4.1,
+    "permissions": [
+      "INTERNET"
+    ],
+    "icon": "logos/unrelated_green.png"
+  }
+]

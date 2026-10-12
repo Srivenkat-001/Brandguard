@@ -1,0 +1,7 @@
+streamlit>=1.50
+pillow>=10
+pandas>=2
+requests>=2.31
+pytest>=8
+# optional, for live Google Play search:
+# google-play-scraper>=1.2

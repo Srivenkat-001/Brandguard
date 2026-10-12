@@ -1,0 +1,56 @@
+{
+  "name": "Veridian Bank",
+  "domains": [
+    "veridianbank.com",
+    "veridianbank.co.in"
+  ],
+  "description": "Veridian Bank offers savings accounts, credit cards, personal loans and UPI payments. Manage your accounts, pay bills, transfer money and track spending securely with the official Veridian Bank mobile banking app.",
+  "logo_path": "logos/official.png",
+  "aliases": [
+    "Veridian"
+  ],
+  "keywords": [
+    "mobile banking",
+    "savings account",
+    "credit card",
+    "personal loan",
+    "upi"
+  ],
+  "official_accounts": [
+    {
+      "platform": "x",
+      "handle": "VeridianBank"
+    },
+    {
+      "platform": "instagram",
+      "handle": "veridianbank"
+    },
+    {
+      "platform": "facebook",
+      "handle": "VeridianBankOfficial"
+    },
+    {
+      "platform": "linkedin",
+      "handle": "veridian-bank"
+    }
+  ],
+  "official_apps": [
+    {
+      "store": "google_play",
+      "app_id": "com.veridianbank.mobile",
+      "name": "Veridian Bank Mobile"
+    },
+    {
+      "store": "app_store",
+      "app_id": "com.veridianbank.mobile",
+      "name": "Veridian Bank Mobile"
+    }
+  ],
+  "official_developers": [
+    {
+      "name": "Veridian Bank Ltd",
+      "developer_id": "dev-veridian-001"
+    }
+  ],
+  "allowlist": []
+}

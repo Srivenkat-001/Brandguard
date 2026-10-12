@@ -1,0 +1,60 @@
+[
+ {
+  "domain": "veridianbank.co.in",
+  "live": true,
+  "first_seen_days": 3000,
+  "sources": [
+   "dns"
+  ],
+  "title": "Veridian Bank",
+  "page_text": "Official site",
+  "url": "https://veridianbank.co.in"
+ },
+ {
+  "domain": "veridianbank-rewards.com",
+  "live": true,
+  "first_seen_days": 12,
+  "sources": [
+   "certificate",
+   "dns"
+  ],
+  "title": "Veridian Bank Rewards",
+  "page_text": "Congratulations! You have won Rs 25,000 Veridian rewards. Enter your account number and OTP to claim now.",
+  "has_login": true,
+  "url": "https://veridianbank-rewards.com"
+ },
+ {
+  "domain": "verldianbank.com",
+  "live": true,
+  "first_seen_days": 50,
+  "sources": [
+   "dns"
+  ],
+  "title": "Veridian Bank Login",
+  "page_text": "Update your KYC immediately or your account will be blocked. Enter your PIN.",
+  "has_login": true,
+  "url": "https://verldianbank.com"
+ },
+ {
+  "domain": "veridianbank.xyz",
+  "live": true,
+  "first_seen_days": null,
+  "sources": [
+   "dns"
+  ],
+  "title": "",
+  "page_text": "",
+  "url": "https://veridianbank.xyz"
+ },
+ {
+  "domain": "veridianbakery.com",
+  "live": true,
+  "first_seen_days": 900,
+  "sources": [
+   "dns"
+  ],
+  "title": "Veridian Bakery",
+  "page_text": "Fresh bread and cakes daily.",
+  "url": "https://veridianbakery.com"
+ }
+]

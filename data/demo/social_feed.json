@@ -1,0 +1,200 @@
+[
+  {
+    "platform": "x",
+    "handle": "VeridianBank",
+    "display_name": "Veridian Bank",
+    "type": "profile",
+    "bio": "Official account of Veridian Bank. Never share OTP/PIN with anyone.",
+    "followers": 482000,
+    "account_age_days": 3900,
+    "verified": true,
+    "links": [
+      "https://veridianbank.com"
+    ],
+    "avatar": "logos/official.png"
+  },
+  {
+    "platform": "instagram",
+    "handle": "veridianbank",
+    "display_name": "Veridian Bank",
+    "type": "profile",
+    "bio": "Banking made simple.",
+    "followers": 120000,
+    "account_age_days": 2800,
+    "verified": true,
+    "links": [
+      "https://veridianbank.com/app"
+    ],
+    "avatar": "logos/official.png"
+  },
+  {
+    "platform": "facebook",
+    "handle": "VeridianBankOfficial",
+    "display_name": "Veridian Bank",
+    "type": "page",
+    "bio": "Official Facebook page.",
+    "followers": 260000,
+    "account_age_days": 3500,
+    "verified": true,
+    "links": [
+      "https://veridianbank.com"
+    ],
+    "avatar": "logos/official.png"
+  },
+  {
+    "platform": "x",
+    "handle": "Veridian_Bank_Support",
+    "display_name": "Veridian Bank Support",
+    "type": "profile",
+    "bio": "24x7 customer care. DM your account number & OTP for instant KYC update. WhatsApp +91 90000 00000",
+    "followers": 312,
+    "account_age_days": 21,
+    "verified": false,
+    "links": [
+      "https://wa.me/919000000000"
+    ],
+    "avatar": "logos/clone_exact.png"
+  },
+  {
+    "platform": "instagram",
+    "handle": "veridianbnak",
+    "display_name": "Veridian Bank",
+    "type": "profile",
+    "bio": "GIVEAWAY! You have won Rs 25,000 Veridian rewards. Claim now, DM us.",
+    "followers": 1450,
+    "account_age_days": 40,
+    "verified": false,
+    "links": [
+      "https://bit.ly/claim-veridian"
+    ],
+    "avatar": "logos/clone_exact.png"
+  },
+  {
+    "platform": "facebook",
+    "handle": "VeridianBank.Rewards.Official",
+    "display_name": "VeridianBank Official Rewards",
+    "type": "page",
+    "bio": "Exclusive cashback offers for Veridian customers. Verify your account to claim.",
+    "followers": 2210,
+    "account_age_days": 55,
+    "verified": false,
+    "links": [
+      "https://veridianbank-rewards.com/login"
+    ],
+    "avatar": "logos/clone_near.png"
+  },
+  {
+    "platform": "telegram",
+    "handle": "veridian_bank_helpdesk",
+    "display_name": "Veridian Bank Helpdesk",
+    "type": "profile",
+    "bio": "Account blocked? Send your debit card number and CVV here to reactivate.",
+    "followers": 95,
+    "account_age_days": 9,
+    "verified": false,
+    "links": [],
+    "avatar": "logos/unrelated_green.png"
+  },
+  {
+    "platform": "instagram",
+    "handle": "v\u0435ridianbank",
+    "display_name": "V\u0435ridian Bank",
+    "type": "profile",
+    "bio": "Banking made simple.",
+    "followers": 380,
+    "account_age_days": 30,
+    "verified": false,
+    "links": [],
+    "avatar": "logos/clone_near.png"
+  },
+  {
+    "platform": "linkedin",
+    "handle": "veri-dian-bank",
+    "display_name": "Veri dian Bank",
+    "type": "page",
+    "bio": "Hiring: work from home, earn Rs 5,000 per day. Registration fee required.",
+    "followers": 140,
+    "account_age_days": 60,
+    "verified": false,
+    "links": [],
+    "avatar": "logos/unrelated_green.png"
+  },
+  {
+    "platform": "x",
+    "handle": "veridian1bank",
+    "display_name": "Veridian Bank",
+    "type": "profile",
+    "bio": "Updates and offers.",
+    "followers": 870,
+    "account_age_days": 75,
+    "verified": false,
+    "links": [
+      "https://veridian-bank.co/offers"
+    ],
+    "avatar": "logos/clone_exact.png"
+  },
+  {
+    "platform": "facebook",
+    "handle": "VeridianBakery",
+    "display_name": "Veridian Bakery",
+    "type": "page",
+    "bio": "Fresh sourdough and pastries every morning.",
+    "followers": 5200,
+    "account_age_days": 1900,
+    "verified": false,
+    "links": [
+      "https://veridianbakery.example"
+    ],
+    "avatar": "logos/unrelated_orange.png"
+  },
+  {
+    "platform": "x",
+    "handle": "VeridianCU",
+    "display_name": "Veridian Credit Union",
+    "type": "profile",
+    "bio": "Member-owned credit union serving Pennsylvania.",
+    "followers": 22000,
+    "account_age_days": 3000,
+    "verified": true,
+    "links": [
+      "https://veridiancu.example"
+    ],
+    "avatar": "logos/unrelated_green.png"
+  },
+  {
+    "platform": "x",
+    "handle": "VeridianBankFans",
+    "display_name": "Veridian Bank Fans",
+    "type": "profile",
+    "bio": "Fan commentary on Veridian Bank news. Not affiliated.",
+    "followers": 3400,
+    "account_age_days": 900,
+    "verified": false,
+    "links": [],
+    "avatar": "logos/unrelated_orange.png"
+  },
+  {
+    "platform": "instagram",
+    "handle": "venetianbank",
+    "display_name": "Venetian Bank",
+    "type": "profile",
+    "bio": "Heritage banking since 1890.",
+    "followers": 8800,
+    "account_age_days": 2500,
+    "verified": true,
+    "links": [],
+    "avatar": "logos/unrelated_green.png"
+  },
+  {
+    "platform": "facebook",
+    "handle": "veridianhikers",
+    "display_name": "Veridian Valley Hiking Club",
+    "type": "page",
+    "bio": "Weekend trails and campfires.",
+    "followers": 640,
+    "account_age_days": 1200,
+    "verified": false,
+    "links": [],
+    "avatar": "logos/unrelated_orange.png"
+  }
+]
