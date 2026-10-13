@@ -43,6 +43,12 @@ One colour language, used for nothing else (every card also has a text label and
   *Required*: brand name, official domains, official logo. *Recommended*: official social accounts, official apps, publisher
   (developer) id. *Optional*: aliases, keywords, official description. Each row says what is missing and what it powers.
   It uses blue only, so green / yellow / orange / red stay reserved for risk.
+* **📄 Evidence report (PDF)**: every threat card has a **Report (PDF)** button, and the Threats header has one for everything
+  currently shown. Each threat gets a ready-to-send page set: case reference, the reported account (name, handle / app id / domain,
+  URL, first and last seen), the genuine brand for comparison, every detection signal with its points, the observed content (bio,
+  links, publisher, permissions, page text), an official-vs-reported logo comparison, the request, an attachment checklist and a
+  signature block. Hidden look-alike letters are spelled out (e.g. `U+0435`) so the platform can see the trick. Reports are built from
+  public data captured at scan time, so add your own screenshots before submitting.
 * Confirm / dismiss decisions survive re-scans. Theme lives in `.streamlit/config.toml` (primary colour is blue on purpose).
 
 ## Architecture
@@ -131,6 +137,7 @@ brandguard/profile.py     brand profile, validation, live checklist, official-as
 brandguard/textmatch.py   look-alike name engine + variant generator
 brandguard/logo.py        perceptual hashing
 brandguard/detect.py      exclusion, scoring, explanations
+brandguard/report.py      evidence PDF for takedown / abuse reports (reportlab)
 brandguard/sources.py     connectors (demo, iTunes, Google Play, social API stub)
 brandguard/storage.py     SQLite persistence and analyst status
 brandguard/engine.py      scan orchestration (+ originals, rescan)   brandguard/cli.py   terminal runner
@@ -138,6 +145,7 @@ scripts/preview_ui.py     renders the dashboard to docs/ui_preview.html / .png w
 data/demo/                fictional brand, logos, social + app feeds
 tests/test_detection.py   detection regression tests        tests/test_ui.py   UI helpers, escaping, originals, rescan
 tests/test_checklist.py   live checklist, rename, create/edit buttons
+tests/test_report.py      evidence PDF (content, hostile text, homoglyphs, every finding type)
 ```
 
 ## Look-alike domain discovery (no keys)

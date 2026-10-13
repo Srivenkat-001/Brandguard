@@ -11,12 +11,21 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from brandguard import ui
-from brandguard.engine import rescan
-from brandguard.profile import PLATFORMS, STORES, BrandProfile
-from brandguard.sources import demo_sources, live_sources
-from brandguard.storage import Store
-from brandguard.textmatch import generate_variants, lookalike
+try:
+    from brandguard import ui
+    from brandguard.engine import rescan
+    from brandguard.profile import PLATFORMS, STORES, BrandProfile
+    from brandguard.report import build_report
+    from brandguard.sources import demo_sources, live_sources
+    from brandguard.storage import Store
+    from brandguard.textmatch import generate_variants, lookalike
+except ImportError as _e:       # Streamlit Cloud redacts errors; show the real cause (a missing/old file or package)
+    st.set_page_config(page_title="Brand Guard", page_icon="🛡️")
+    st.error(f"Brand Guard could not start: {type(_e).__name__}: {_e}")
+    st.info("This usually means a file in the deployed repo is older than the others, or a package is missing. "
+            "Re-upload the whole project folder (every file in brandguard/), make sure requirements.txt is in the repo "
+            "root, then reboot the app.")
+    st.stop()
 
 ROOT = Path(__file__).resolve().parent
 DEMO = ROOT / "data" / "demo"
@@ -46,6 +55,24 @@ def get_store() -> Store:
 
 
 store = get_store()
+
+
+@st.cache_data(show_spinner=False, max_entries=64)
+def report_pdf(brand_json: str, base_dir: str, dets_json: str) -> bytes:
+    """Evidence PDF for one or many findings. Cached so re-renders do not rebuild it."""
+    import json
+    b = BrandProfile.from_dict(json.loads(brand_json), base_dir=base_dir)
+    return build_report(b, json.loads(dets_json), root=ROOT)
+
+
+def report_args(b: BrandProfile, dets: list[dict]) -> tuple[str, str, str]:
+    import json
+    return json.dumps(b.to_dict(), sort_keys=True), b.base_dir, json.dumps(dets, sort_keys=True, default=str)
+
+
+def report_name(b: BrandProfile, what: str) -> str:
+    safe = "".join(ch for ch in b.name if ch.isalnum()) or "brand"
+    return f"{safe}_impersonation_report_{what}_{time.strftime('%Y%m%d')}.pdf"
 
 
 # --------------------------------------------------------------- callbacks
@@ -225,7 +252,7 @@ tab_dash, tab_profile, tab_lab = st.tabs(["🛡️ Dashboard", "🏷️ Brand pr
 def render_threat(d: dict) -> None:
     with st.container(key=ui.card_class(d["level"], d["id"])):
         st.html(ui.threat_card(d, official_logo))
-        c1, c2, c3, _ = st.columns([1.25, 1.1, 1.6, 3])
+        c1, c2, c3, c4, _ = st.columns([1.25, 1.1, 1.6, 1.5, 1.6])
         slots = []
         if d["status"] != "confirmed":
             slots.append(("confirm", "✔ Confirm threat", "primary", "This is a real impersonation",
@@ -242,6 +269,10 @@ def render_threat(d: dict) -> None:
         c3.button("Mark as legitimate", key=f"legit{d['id']}", width="stretch",
                   help="It is really yours: it moves to Original and is never flagged again",
                   on_click=cb_legit, args=(brand.name, d))
+        c4.download_button("📄 Report (PDF)", data=report_pdf(*report_args(brand, [d])), key=f"pdf{d['id']}",
+                           file_name=report_name(brand, f"{d['platform']}_{d['id']}"), mime="application/pdf",
+                           on_click="ignore", width="stretch",
+                           help="Evidence report to send to the platform: details, every signal, logo comparison, request")
 
 
 def render_original(v: dict) -> None:
@@ -328,7 +359,12 @@ with tab_dash:
 
             # ------------------------------------------------------ threats
             if threats:
-                st.html(ui.section("Threats", len(threats), "neutral", "most dangerous first"))
+                h1, h2 = st.columns([3, 1.4], vertical_alignment="center")
+                h1.html(ui.section("Threats", len(threats), "neutral", "most dangerous first"))
+                h2.download_button(f"📄 Report for all {len(threats)} shown (PDF)",
+                                   data=report_pdf(*report_args(brand, threats)), key="pdf_all", width="stretch",
+                                   file_name=report_name(brand, "all"), mime="application/pdf", on_click="ignore",
+                                   help="One PDF: a summary page, then an evidence page for each threat in the current filter")
                 lim = st.session_state.get("limit_t", THREAT_PAGE)
                 for d in threats[:lim]:
                     render_threat(d)

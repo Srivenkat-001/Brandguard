@@ -1,3 +1,4 @@
 .env
 __pycache__/
 *.pyc
+YOUTUBE_API_KEYS= "AIzaSyDPm1tEnCn1UcvuyiljaTbAozvssAv4Qvw,AIzaSyCSDCpbzpxiNdF5X7hnPifCnD6igdIGfhA,AIzaSyC5BoJ_7m8XFwia4vg2j-1uZWzDNfKAiPM,AIzaSyCFjgwMJgL7ywsx_629b8-ZEutB5ExUVzs,AIzaSyDQ9j6t2p0h5tLnOXRw0YCcHDloOH59aD4"
