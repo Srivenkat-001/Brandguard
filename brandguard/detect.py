@@ -151,6 +151,34 @@ def exclusion_reason(brand: BrandProfile, kind: str, item: dict) -> str | None:
     return None
 
 
+def verified_record(brand: BrandProfile, kind: str, item: dict, why: str, source: str = "") -> dict:
+    """Describe an item excluded as legitimate ('official' / 'allowlisted') so the UI can show it as an original."""
+    if kind == "social":
+        platform, ref = norm_platform(item["platform"]), norm_handle(item["handle"])
+        title = f"{item.get('display_name') or ref} (@{ref})"
+        official = f"Listed in your official accounts (@{ref})"
+        ev = {"followers": item.get("followers"), "verified": item.get("verified"),
+              "account_age_days": item.get("account_age_days")}
+    elif kind == "domain":
+        platform, ref = "web", norm_domain(item["domain"])
+        title = ref
+        official = "Matches one of your official domains"
+        ev = {"title": item.get("title", ""), "first_seen_days": item.get("first_seen_days")}
+    else:
+        platform, ref = norm_platform(item["store"]), item["app_id"]
+        title = item.get("name") or ref
+        if any(a.app_id.strip().lower() == ref.strip().lower() for a in brand.official_apps):
+            official = "App id matches your official app"
+        else:
+            official = f"Published under your official developer id ({item.get('developer_id', '')})"
+        ev = {"developer": item.get("developer", ""), "developer_id": str(item.get("developer_id", "")),
+              "installs": item.get("installs"), "rating": item.get("rating")}
+    ev["image_path"] = item.get("_image_path", "")
+    return {"kind": kind, "source": source, "platform": platform, "ref": ref, "title": title,
+            "url": item.get("url", ""), "via": "allowlist" if why == "allowlisted" else "official",
+            "detail": official if why == "official" else "Approved by your team (allowlist)", "evidence": ev}
+
+
 # ------------------------------------------------------------------- social
 def evaluate_social(brand: BrandProfile, item: dict, b_hash, source: str = "") -> Detection | None:
     names = brand.match_names()

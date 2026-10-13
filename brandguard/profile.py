@@ -155,6 +155,81 @@ class BrandProfile:
     def has_errors(self) -> bool:
         return any(s == "error" for s, _ in self.validate())
 
+
+    # ------------------------------------------------- live checklist
+    def checklist(self) -> list[dict]:
+        """Brand details this project needs, each checked against the current profile.
+
+        Returns one dict per detail: key, label, level ('required' | 'recommended' | 'optional'),
+        state ('ok' | 'missing' | 'invalid'), detail (what was found / what to fix), why (what it powers).
+        Pure and cheap, so the UI can call it on every keystroke.
+        """
+        bad_domains = [d for d in self.domains if not _DOMAIN_RE.match(norm_domain(d))]
+        accounts = [a for a in self.official_accounts if norm_handle(a.handle)]
+        bad_accounts = [a for a in accounts if norm_platform(a.platform) not in PLATFORMS]
+        apps = [a for a in self.official_apps if a.app_id.strip()]
+        bad_apps = [a for a in apps if norm_platform(a.store) not in STORES]
+        dev_ids = [d for d in self.official_developers if d.developer_id.strip()]
+        logo = self.logo_file()
+
+        def item(key, label, level, state, detail, why):
+            return {"key": key, "label": label, "level": level, "state": state, "detail": detail, "why": why}
+
+        out = [
+            item("name", "Brand name", "required",
+                 "ok" if self.name.strip() else "missing",
+                 self.name.strip() or "Type the exact public name of the company or product.",
+                 "Every look-alike name check starts from this."),
+            item("domains", "Official domains", "required",
+                 "invalid" if bad_domains else ("ok" if self.domains else "missing"),
+                 (f"'{bad_domains[0]}' is not a valid domain (example: example.com)." if bad_domains
+                  else f"{len(self.domains)} listed" if self.domains else "Add every website you own, e.g. example.com."),
+                 "Spots look-alike websites and links, and stops your own sites being flagged."),
+            item("logo", "Official logo", "required",
+                 "ok" if logo else ("invalid" if self.logo_path else "missing"),
+                 ("Logo found." if logo else f"Logo file not found: {self.logo_path}" if self.logo_path
+                  else "Upload a PNG or JPG of your logo."),
+                 "Finds profiles and apps that copy your logo or icon."),
+            item("accounts", "Official social accounts", "recommended",
+                 "invalid" if bad_accounts else ("ok" if accounts else "missing"),
+                 (f"Unsupported platform '{bad_accounts[0].platform}'." if bad_accounts
+                  else f"{len(accounts)} on {len({norm_platform(a.platform) for a in accounts})} platform(s)" if accounts
+                  else "List your real handles, one row per platform."),
+                 "Your own accounts are never flagged. Without this they may be reported as impersonators."),
+            item("apps", "Official mobile apps", "recommended",
+                 "invalid" if bad_apps else ("ok" if apps else "missing"),
+                 (f"Unsupported store '{bad_apps[0].store}'." if bad_apps
+                  else f"{len(apps)} listed" if apps else "Add the package name / bundle id of each real app."),
+                 "Your own apps are never flagged, and copies can be told apart from them."),
+            item("developers", "Publisher (developer) id", "recommended",
+                 "ok" if dev_ids else "missing",
+                 (f"{len(dev_ids)} id(s) listed" if dev_ids
+                  else "Add the store-issued developer id. A publisher name alone can be faked."),
+                 "Separates your real publisher from a fake that copies the name."),
+            item("aliases", "Aliases / short names", "optional",
+                 "ok" if self.aliases else "missing",
+                 ", ".join(self.aliases) if self.aliases else "Add nicknames people use for the brand.",
+                 "Catches look-alikes of the short form, e.g. 'Veridian'."),
+            item("keywords", "Brand keywords", "optional",
+                 "ok" if self.keywords else "missing",
+                 ", ".join(self.keywords[:5]) if self.keywords else "Add products or services, e.g. savings account.",
+                 "Helps recognise apps and pages that describe your business."),
+            item("description", "Official description", "optional",
+                 "ok" if len(self.description.strip()) >= 40 else "missing",
+                 "Description added." if len(self.description.strip()) >= 40
+                 else "Paste your store listing or About text (at least a sentence).",
+                 "Spots copied app listings."),
+        ]
+        return out
+
+    def completeness(self) -> int:
+        """0-100: required items weigh 3, recommended 2, optional 1. Invalid counts as not done."""
+        w = {"required": 3, "recommended": 2, "optional": 1}
+        items = self.checklist()
+        total = sum(w[i["level"]] for i in items)
+        done = sum(w[i["level"]] for i in items if i["state"] == "ok")
+        return round(100 * done / total)
+
     # ------------------------------------------------------ persistence
     def to_dict(self) -> dict:
         d = asdict(self)

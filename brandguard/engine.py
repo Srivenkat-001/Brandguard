@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from .detect import (REPORT_THRESHOLD, Detection, brand_logo_hash, evaluate_app, evaluate_domain,
-                     evaluate_social, exclusion_reason)
+                     evaluate_social, exclusion_reason, verified_record)
 from .profile import BrandProfile
 from .sources import Source
 from .storage import Store
@@ -18,6 +18,7 @@ class ScanReport:
     detections: list[Detection] = field(default_factory=list)
     summary: dict = field(default_factory=dict)
     sources: list[dict] = field(default_factory=list)
+    verified: list[dict] = field(default_factory=list)   # originals seen (shown green in the UI)
 
 
 def run_scan(brand: BrandProfile, sources: list[Source], store: Store | None = None,
@@ -42,6 +43,7 @@ def run_scan(brand: BrandProfile, sources: list[Source], store: Store | None = N
             why = exclusion_reason(brand, res.kind, item)
             if why:
                 counts["excluded_official" if why == "official" else "excluded_allowlisted"] += 1
+                rep.verified.append(verified_record(brand, res.kind, item, why, res.source))
                 continue
             ev = {"social": evaluate_social, "app": evaluate_app, "domain": evaluate_domain}[res.kind]
             det = ev(brand, item, b_hash, source=res.source)
@@ -57,5 +59,19 @@ def run_scan(brand: BrandProfile, sources: list[Source], store: Store | None = N
     rep.detections.sort(key=lambda d: -d.score)
     rep.summary = counts
     if store:
+        store.replace_verified(brand.name, rep.verified)
         store.log_run(brand.name, counts, rep.sources)
+    return rep
+
+
+def rescan(brand: BrandProfile, sources: list[Source], store: Store,
+           threshold: int = REPORT_THRESHOLD) -> ScanReport:
+    """Fresh scan that keeps the analyst's earlier decisions (confirmed / dismissed) on findings seen again."""
+    prev = {(d["kind"], d["platform"], d["ref"]): d["status"] for d in store.detections(brand.name)}
+    store.clear_detections(brand.name)
+    rep = run_scan(brand, sources, store, threshold)
+    for d in store.detections(brand.name):
+        status = prev.get((d["kind"], d["platform"], d["ref"]))
+        if status and status != "new":
+            store.set_status(d["id"], status)
     return rep

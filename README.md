@@ -10,12 +10,40 @@ pip install -r requirements.txt
 python scripts/make_demo_data.py      # (already included) regenerates the fictional demo brand + feeds
 streamlit run app.py                  # web UI
 python -m brandguard.cli scan         # same pipeline in the terminal
-python -m pytest -q tests             # 23 regression tests
+python -m pytest -q tests             # regression tests
+python scripts/preview_ui.py --png    # static preview of the UI -> docs/ui_preview.png (no Streamlit needed)
 ```
 
-In the UI: **Load demo brand** → **Scan** (demo feeds work offline) → **Detections**.
-Switch the Scan tab to *Live: app stores + social media* to query the Apple App Store with the public iTunes Search API
+In the UI: **➕ Create brand** (or **Load demo brand**) → **Run scan** (demo feeds work offline) → review the coloured cards on the **Dashboard**.
+Switch the scan source to *Live: app stores + social media* to query the Apple App Store with the public iTunes Search API
 (Google Play works if you `pip install google-play-scraper`).
+
+## The UI at a glance
+
+![Dashboard preview](docs/ui_preview.png)
+
+One colour language, used for nothing else (every card also has a text label and icon, so it works without colour vision):
+
+| Colour | Meaning |
+|---|---|
+| 🟢 **Green** | **Original**: your own verified assets, or ones an analyst approved. Never flagged. |
+| 🟡 **Yellow** | **Low risk** (score 25–39): weak signals, keep an eye on it |
+| 🟠 **Orange** | **Medium risk** (40–69): suspicious, review soon |
+| 🔴 **Red** | **High risk** (70–100): very likely an impersonation, act now |
+
+* **Dashboard**: scan and review in one place. A banner answers "am I OK?" (coloured by the worst active threat),
+  then risk tiles, filters (risk / type / status) and one card per finding with signal chips, a score ring and a
+  *Why was this flagged?* panel (reasons with points, evidence, official-vs-candidate logo, mixed-alphabet warning).
+  Actions: **Confirm threat**, **Dismiss**, **Mark as legitimate** (moves it to green), **Reopen**, **Remove approval**.
+* **Brand profile**: a green "Protected as original" summary of everything that is never flagged, next to the live
+  **Brand details checklist** (see below). **➕ Create brand** and **✏️ Edit brand** buttons (sidebar and this tab) open the editor
+  in a pop-up; Edit also lets you rename a brand, and its scans and approvals follow the new name.
+* **Look-alike lab**: type any name; the result is red (look-alike), yellow (weak) or green (not a look-alike).
+* **Brand details checklist**: the details this project needs, ticked off live as you fill in the editor, with a completeness %.
+  *Required*: brand name, official domains, official logo. *Recommended*: official social accounts, official apps, publisher
+  (developer) id. *Optional*: aliases, keywords, official description. Each row says what is missing and what it powers.
+  It uses blue only, so green / yellow / orange / red stay reserved for risk.
+* Confirm / dismiss decisions survive re-scans. Theme lives in `.streamlit/config.toml` (primary colour is blue on purpose).
 
 ## Architecture
 
@@ -97,16 +125,19 @@ remaining sources.
 
 ## Project layout
 ```
-app.py                    Streamlit UI (profile, scan, detections, look-alike lab)
-brandguard/profile.py     brand profile, validation, official-asset checks
+app.py                    Streamlit UI (dashboard, brand profile, look-alike lab)
+brandguard/ui.py          design system: CSS + HTML builders (pure functions, no Streamlit import)
+brandguard/profile.py     brand profile, validation, live checklist, official-asset checks
 brandguard/textmatch.py   look-alike name engine + variant generator
 brandguard/logo.py        perceptual hashing
 brandguard/detect.py      exclusion, scoring, explanations
 brandguard/sources.py     connectors (demo, iTunes, Google Play, social API stub)
 brandguard/storage.py     SQLite persistence and analyst status
-brandguard/engine.py      scan orchestration        brandguard/cli.py   terminal runner
+brandguard/engine.py      scan orchestration (+ originals, rescan)   brandguard/cli.py   terminal runner
+scripts/preview_ui.py     renders the dashboard to docs/ui_preview.html / .png without Streamlit
 data/demo/                fictional brand, logos, social + app feeds
-tests/test_detection.py   regression tests
+tests/test_detection.py   detection regression tests        tests/test_ui.py   UI helpers, escaping, originals, rescan
+tests/test_checklist.py   live checklist, rename, create/edit buttons
 ```
 
 ## Look-alike domain discovery (no keys)
@@ -129,7 +160,7 @@ not proof of fraud. Make sure your official domain list is complete or your own 
 
 ## 3-minute demo script
 1. **Profile**: load the demo brand; point out validation warnings and the official accounts / apps / developer id.
-2. **Scan**: run it; show the funnel (24 scanned → 5 official skipped → 7 unrelated → 1 below threshold → 11 flagged) and the unavailable Instagram API chip.
-3. **Detections**: open `Veridian_Bank_Support` (name + logo + scam text) and `Veridian Bank - Official Pay` (spoofed publisher).
-4. **Mark as legitimate** one finding, then re-scan to show it stays excluded.
+2. **Scan**: on the Dashboard press Run scan; the banner turns red. Open *Scan details* for the funnel and the unavailable Instagram API chip.
+3. **Review**: open *Why was this flagged?* on `Veridian_Bank_Support` (name + logo + scam text), on `Veridian Bank - Official Pay` (spoofed publisher) and on the homoglyph `@veridianbank` (hidden Cyrillic letter).
+4. **Mark as legitimate** one finding: it turns green under *Original*. Re-scan to show it stays excluded and your other decisions are kept.
 5. **Look-alike lab**: type `Veridian Bakery` (clean) vs `veridianbnak` (flagged).
